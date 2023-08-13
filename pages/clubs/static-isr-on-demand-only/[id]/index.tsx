@@ -75,7 +75,6 @@ export async function getStaticProps({
       club,
       places: places._embedded?.places || [],
     },
-    revalidate: 10, // Re-generate page every no more than every 10 seconds (if a request comes in)
   };
 }
 

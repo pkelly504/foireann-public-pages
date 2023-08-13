@@ -27,7 +27,7 @@ export async function getStaticProps() {
     }
   }
 
-  const clubs: PagedResponse<OrganizationsResponse> = await fetch(`https://organization-uat.gaaservers.net/organization?size=2`, {
+  const clubs: PagedResponse<OrganizationsResponse> = await fetch(`https://organization-uat.gaaservers.net/organization`, {
     headers: {
       Authorization: `Bearer ${process.env.JWT}`
     }

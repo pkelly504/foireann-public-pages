@@ -7,7 +7,6 @@ import {
 import { GetStaticPathsResult, GetStaticPropsResult } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 type StaticHybridClubProps = {
@@ -15,12 +14,7 @@ type StaticHybridClubProps = {
   jwt?: string;
 };
 
-export default function StaticHybridClub({
-  club,
-  jwt,
-}: StaticHybridClubProps) {
-  const router = useRouter();
-
+export default function StaticHybridClub({ club, jwt }: StaticHybridClubProps) {
   const [places, setPlaces] = useState<Place[]>([]);
 
   useEffect(() => {
@@ -37,15 +31,10 @@ export default function StaticHybridClub({
       setPlaces(res._embedded?.places || []);
     };
 
-    if (router.isReady && club?.id && jwt) {
+    if (club?.id && jwt) {
       fetchPlaces();
     }
-  }, [club?.id, jwt, router.isReady]);
-
-  // If the page is not yet generated, this will be displayed when getStaticProps gets called.
-  if (router.isFallback) {
-    return <h1>Loading...</h1>;
-  }
+  }, [club?.id, jwt]);
 
   if (!club) {
     return <h2>Club not found. Are you sure you added it.</h2>;
@@ -55,7 +44,9 @@ export default function StaticHybridClub({
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Link href={`/clubs`}>Go back to club list</Link>
       <h1>
-        Welcome to {club.name} where the club is fetched at build time but the places are fetched client side. The club info is rebuilt when something changes on the org.
+        Welcome to {club.name} where the club is fetched at build time but the
+        places are fetched client side. The club info is rebuilt when something
+        changes on the org.
       </h1>
 
       <Image
@@ -67,7 +58,9 @@ export default function StaticHybridClub({
 
       <div>
         <h2>Places</h2>
-        {places.length === 0 && <h3>No places found. Check your network tab</h3>}
+        {places.length === 0 && (
+          <h3>No places found. Check your network tab</h3>
+        )}
 
         {places.length && (
           <ul>
